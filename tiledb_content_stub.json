@@ -1,0 +1,11 @@
+...
+    {
+        "type": "tiledb",
+        "array_uri": "tiledb://foo/bar/array.tdb",
+        "dimensions": ["source_id","time"],
+        "domains": [
+            ["FDSN:AA", "FDSN:ZZ"],
+            [t0, t1],      
+        ],                  
+    }
+...
