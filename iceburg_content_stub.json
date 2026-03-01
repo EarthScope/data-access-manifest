@@ -1,0 +1,44 @@
+...
+    {
+        "type": "iceburg",
+        "catalog": {
+            "s3_tables_catalog":
+                "type": "rest",
+                "uri": "https://glue.<region>.amazonaws.com/iceberg",
+                "warehouse": "<account-id>:s3tablescatalog/<table-bucket-name>"
+        },
+        "table_identifier": {
+            "namespace": "default",
+            "name": "MINISEED"
+        },
+        "selected_fields":[
+            "network_station",
+            "location_channel",
+            "data_day",
+            "start_timestamp",
+            "end_timestamp",
+            "record_data"
+        ],
+        "row_filter": [
+            // SNCL match
+            In("network_station", network_station),
+            In("location_channel", location_channel),
+
+            // Request period
+            GreaterThanOrEqual("end_timestamp", start_timestamp),
+            LessThan("start_timestamp", end_timestamp),
+
+            // Realtime limits
+            GreaterThanOrEqual(
+            data_day,
+            query_timestamp.date() - timedelta(days=dataselect_realtime_days),
+            ),
+            LessThanOrEqual("data_day", query_timestamp.date()),
+        ],
+        "sort_by": [
+            ("network_station", "ascending"),
+            ("location_channel", "ascending"),
+            ("start_timestamp", "ascending")
+        ]
+    }
+...
