@@ -1,6 +1,6 @@
 ...
     {
-        "type": "iceburg",
+        "type": "iceberg",
         "catalog": {
             "s3_tables_catalog":
                 "type": "rest",
@@ -20,6 +20,7 @@
             "record_data"
         ],
         "row_filter": [
+            
             // SNCL match
             In("network_station", network_station),
             In("location_channel", location_channel),
